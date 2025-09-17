@@ -1,14 +1,155 @@
 <!doctype html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Skin Compass — pielęgnacja mądrze i pięknie</title>
-    <meta name="description" content="Kompas pielęgnacji: rekomendacje, składniki, rutyny, gra i prywatne kapsuły udostępniania." />
-    <link rel="manifest" href="/manifest.webmanifest">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Skin Compass — demo 1-plikowe</title>
+<meta name="description" content="Jednoplikowy demo-kompas pielęgnacji: wrzuć zdjęcie, wybierz kategorię, zobacz rekomendacje." />
+<style>
+  :root{
+    --bg:#0b0c10; --card:#151828; --border:#23263a;
+    --text:#eef0f6; --muted:#a9adc2; --primary:#b99cff; --accent:#7ee9d1;
+  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{margin:0;background: radial-gradient(1200px 600px at 20% -10%, rgba(185,156,255,.25), transparent),
+                      radial-gradient(1200px 600px at 120% 10%, rgba(126,233,209,.18), transparent),
+                      var(--bg); color:var(--text); font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif}
+  .container{max-width:1100px;margin:0 auto;padding:24px}
+  .hero{padding:36px 0;text-align:center}
+  .pill{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border:1px solid var(--border);
+        border-radius:999px;background:rgba(255,255,255,.03)}
+  .grid{display:grid;gap:18px;grid-template-columns:2fr 3fr}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px}
+  .muted{color:var(--muted)}
+  .btn{cursor:pointer;border:1px solid var(--border); background:#1b1f34; color:var(--text); padding:10px 14px; border-radius:10px}
+  .btn.primary{background:var(--primary); color:#0b0c10; font-weight:700}
+  .uploader{display:block; border:1px dashed var(--border); border-radius:12px; padding:16px; text-align:center}
+  .uploader input{display:none}
+  .badge{display:inline-block; padding:2px 8px; border:1px solid var(--border); border-radius:999px; font-size:12px; color:var(--muted)}
+  .product{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:12px;background:#0f1222}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  footer{margin-top:28px; font-size:12px; color:var(--muted)}
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="pill"><span class="dot"></span> <b>Skin Compass</b> — demo 1-plikowe (działa bez buildów)</div>
+      <h1 style="margin:18px 0 8px">Wrzuć zdjęcie. Otrzymaj rekomendacje.</h1>
+      <p class="muted">Edukacyjnie, bez diagnozy medycznej. Prywatnie — zdjęcie nie opuszcza Twojej przeglądarki.</p>
+    </header>
+
+    <section class="grid">
+      <div class="card">
+        <h3>Analiza zdjęcia (prywatnie)</h3>
+        <label class="uploader">
+          <input id="file" type="file" accept="image/*">
+          <div>Przeciągnij i upuść / kliknij, aby wybrać</div>
+        </label>
+        <div id="preview" style="margin-top:12px;display:none">
+          <img id="img" alt="podgląd" style="max-width:100%;border-radius:12px;border:1px solid var(--border)"/>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="badge">Kategoria</div>
+          <div id="detected" style="margin-top:6px">—</div>
+          <small class="muted">To nie jest porada medyczna. Kategorie służą doborowi pielęgnacji.</small>
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" data-cond="tradzik">Trądzik</button>
+          <button class="btn" data-cond="wagry">Wągry</button>
+          <button class="btn" data-cond="sucha">Sucha skóra</button>
+          <button class="btn" id="clear">Wyczyść</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Najlepsze rekomendacje</h3>
+        <p class="muted" id="hint">Wybierz kategorię lub wrzuć zdjęcie — pokażemy listę polecanych produktów.</p>
+        <div id="list" style="display:grid;gap:10px;margin-top:10px"></div>
+      </div>
+    </section>
+
+    <footer>
+      © Skin Compass • Edukacja pielęgnacyjna • <span class="muted">Brak porad medycznych</span>
+    </footer>
+  </div>
+
+<script>
+/* ——— dane demo (lokalne) ——— */
+const PRODUCTS = {
+  tradzik: [
+    {name:"Acne Control Gel 2%", brand:"BX Labs", rating:4.7, price:"od 39 zł", tags:["BHA","żel","noc"]},
+    {name:"Kwas azelainowy 10%", brand:"Dr. AZE", rating:4.6, price:"od 49 zł", tags:["azelainowy","przebarwienia"]},
+  ],
+  wagry: [
+    {name:"Tonik BHA 2%", brand:"ClearWave", rating:4.6, price:"od 35 zł", tags:["pory","strefa-T"]},
+  ],
+  sucha: [
+    {name:"Krem z ceramidami", brand:"BarrierLab", rating:4.8, price:"od 39 zł", tags:["bariera"]},
+  ]
+};
+const LABELS = { tradzik:"Trądzik", wagry:"Wągry / zaskórniki", sucha:"Sucha skóra" };
+
+/* ——— prosta „analiza” po nazwie pliku ——— */
+function guessByName(name){
+  const n = name.toLowerCase();
+  if(/acne|tradzik|pimple|pryszcz/.test(n)) return "tradzik";
+  if(/blackhead|wagry|comedone|pory/.test(n)) return "wagry";
+  if(/dry|sucha|xerosis|flaky/.test(n)) return "sucha";
+  return null;
+}
+
+/* ——— UI logika ——— */
+const fileInput = document.getElementById('file');
+const preview = document.getElementById('preview');
+const img = document.getElementById('img');
+const detected = document.getElementById('detected');
+const list = document.getElementById('list');
+const hint = document.getElementById('hint');
+
+function renderList(key){
+  list.innerHTML = "";
+  if(!key){ hint.style.display=""; return; }
+  hint.style.display="none";
+  (PRODUCTS[key]||[]).forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'product';
+    el.innerHTML = `
+      <div class="dot"></div>
+      <div>
+        <div><b>${p.name}</b></div>
+        <div class="muted">${p.brand} • ⭐ ${p.rating.toFixed(1)} • ${p.price}</div>
+        <div style="margin-top:4px">${p.tags.map(t=>`<span class="badge">${t}</span>`).join(' ')}</div>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+function setCondition(key){
+  detected.textContent = key ? LABELS[key] : "—";
+  renderList(key);
+}
+
+fileInput.addEventListener('change', e=>{
+  const f = e.target.files && e.target.files[0];
+  if(!f){ preview.style.display="none"; setCondition(null); return; }
+  const url = URL.createObjectURL(f);
+  img.src = url;
+  preview.style.display = '';
+  const g = guessByName(f.name);
+  setCondition(g);
+});
+
+document.querySelectorAll('.btn[data-cond]').forEach(btn=>{
+  btn.addEventListener('click', ()=> setCondition(btn.dataset.cond));
+});
+document.getElementById('clear').addEventListener('click', ()=>{
+  fileInput.value = ""; preview.style.display="none"; setCondition(null);
+});
+</script>
+</body>
 </html>
