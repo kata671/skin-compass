@@ -1,36 +1,20 @@
-﻿name: Deploy Vite app to GitHub Pages
+name: Deploy Vite app
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_dispatch:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Show dist contents (debug)
-        run: |
-          echo "DIST LISTING:"
-          ls -la ./dist || true
-
-      - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v1
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -38,5 +22,4 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - uses: actions/deploy-pages@v4
