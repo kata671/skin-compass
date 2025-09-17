@@ -1,155 +1,298 @@
 <!doctype html>
-<html lang="pl">
+<html lang="pl" data-lang="pl">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Skin Compass — demo 1-plikowe</title>
-<meta name="description" content="Jednoplikowy demo-kompas pielęgnacji: wrzuć zdjęcie, wybierz kategorię, zobacz rekomendacje." />
-<style>
-  :root{
-    --bg:#0b0c10; --card:#151828; --border:#23263a;
-    --text:#eef0f6; --muted:#a9adc2; --primary:#b99cff; --accent:#7ee9d1;
-  }
-  *{box-sizing:border-box} html,body{height:100%}
-  body{margin:0;background: radial-gradient(1200px 600px at 20% -10%, rgba(185,156,255,.25), transparent),
-                      radial-gradient(1200px 600px at 120% 10%, rgba(126,233,209,.18), transparent),
-                      var(--bg); color:var(--text); font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif}
-  .container{max-width:1100px;margin:0 auto;padding:24px}
-  .hero{padding:36px 0;text-align:center}
-  .pill{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border:1px solid var(--border);
-        border-radius:999px;background:rgba(255,255,255,.03)}
-  .grid{display:grid;gap:18px;grid-template-columns:2fr 3fr}
-  @media (max-width:900px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px}
-  .muted{color:var(--muted)}
-  .btn{cursor:pointer;border:1px solid var(--border); background:#1b1f34; color:var(--text); padding:10px 14px; border-radius:10px}
-  .btn.primary{background:var(--primary); color:#0b0c10; font-weight:700}
-  .uploader{display:block; border:1px dashed var(--border); border-radius:12px; padding:16px; text-align:center}
-  .uploader input{display:none}
-  .badge{display:inline-block; padding:2px 8px; border:1px solid var(--border); border-radius:999px; font-size:12px; color:var(--muted)}
-  .product{display:flex;gap:12px;align-items:center;padding:10px;border:1px solid var(--border);border-radius:12px;background:#0f1222}
-  .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
-  footer{margin-top:28px; font-size:12px; color:var(--muted)}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Skin Compass — Twoja pielęgnacja, gra, progres i planer</title>
+<meta name="description" content="Analiza zdjęcia (lokalnie), rekomendacje, gra doboru kosmetyków, planer rutyny, progres before/after, blog i treści edukacyjne. Bez porad medycznych." />
+<link rel="stylesheet" href="./style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%230b0c10'/%3E%3Ccircle cx='44' cy='20' r='14' fill='%237ee9d1'/%3E%3C/svg%3E">
 </head>
 <body>
-  <div class="container">
-    <header class="hero">
-      <div class="pill"><span class="dot"></span> <b>Skin Compass</b> — demo 1-plikowe (działa bez buildów)</div>
-      <h1 style="margin:18px 0 8px">Wrzuć zdjęcie. Otrzymaj rekomendacje.</h1>
-      <p class="muted">Edukacyjnie, bez diagnozy medycznej. Prywatnie — zdjęcie nie opuszcza Twojej przeglądarki.</p>
-    </header>
-
-    <section class="grid">
-      <div class="card">
-        <h3>Analiza zdjęcia (prywatnie)</h3>
-        <label class="uploader">
-          <input id="file" type="file" accept="image/*">
-          <div>Przeciągnij i upuść / kliknij, aby wybrać</div>
-        </label>
-        <div id="preview" style="margin-top:12px;display:none">
-          <img id="img" alt="podgląd" style="max-width:100%;border-radius:12px;border:1px solid var(--border)"/>
-        </div>
-
-        <div class="card" style="margin-top:12px">
-          <div class="badge">Kategoria</div>
-          <div id="detected" style="margin-top:6px">—</div>
-          <small class="muted">To nie jest porada medyczna. Kategorie służą doborowi pielęgnacji.</small>
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn" data-cond="tradzik">Trądzik</button>
-          <button class="btn" data-cond="wagry">Wągry</button>
-          <button class="btn" data-cond="sucha">Sucha skóra</button>
-          <button class="btn" id="clear">Wyczyść</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Najlepsze rekomendacje</h3>
-        <p class="muted" id="hint">Wybierz kategorię lub wrzuć zdjęcie — pokażemy listę polecanych produktów.</p>
-        <div id="list" style="display:grid;gap:10px;margin-top:10px"></div>
-      </div>
-    </section>
-
-    <footer>
-      © Skin Compass • Edukacja pielęgnacyjna • <span class="muted">Brak porad medycznych</span>
-    </footer>
+<header class="topbar">
+  <div class="brand"><span class="dot"></span><b>Skin Compass</b></div>
+  <nav class="nav">
+    <a href="#analyzer">Analiza</a>
+    <a href="#recs">Rekomendacje</a>
+    <a href="#game">Gra</a>
+    <a href="#progress">Progres</a>
+    <a href="#planner">Planer</a>
+    <a href="#blog">Blog</a>
+    <a href="#legal">Prywatność</a>
+  </nav>
+  <div class="actions">
+    <button class="btn small" id="langToggle">PL/EN</button>
+    <button class="btn primary small" id="ctaStart">Zacznij</button>
   </div>
+</header>
+
+<main class="container">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <h1 data-t="h1">Wrzuć zdjęcie. Otrzymaj mądre rekomendacje.</h1>
+    <p class="muted" data-t="heroSub">Wszystko działa lokalnie — zdjęcia zostają w Twojej przeglądarce. Edukacyjnie, bez porad medycznych.</p>
+    <div class="hero-cards">
+      <div class="card">
+        <h3>1. Analiza zdjęcia</h3>
+        <p class="muted">Rozpoznanie kategorii problemu (lokalnie) + dobór kosmetyków.</p>
+      </div>
+      <div class="card">
+        <h3>2. Gra doboru</h3>
+        <p class="muted">Dobierz składniki do celu — zdobywaj punkty.</p>
+      </div>
+      <div class="card">
+        <h3>3. Plan i progres</h3>
+        <p class="muted">Planer rutyny + tabela postępów i kapsuła before/after.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYZER -->
+  <section class="grid-2" id="analyzer">
+    <div class="card">
+      <h2>Analiza zdjęcia (prywatnie)</h2>
+      <label class="uploader">
+        <input id="file" type="file" accept="image/*">
+        <div>Przeciągnij i upuść / kliknij, aby wybrać</div>
+      </label>
+      <div id="preview" class="preview hide"><img id="img" alt="podgląd"></div>
+
+      <div class="card soft">
+        <div class="badge">Kategoria</div>
+        <div id="detected" class="mt6">—</div>
+        <small class="muted">To nie jest porada medyczna.</small>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" data-cond="tradzik">Trądzik</button>
+        <button class="btn" data-cond="wagry">Wągry</button>
+        <button class="btn" data-cond="sucha">Sucha skóra</button>
+        <button class="btn" id="clear">Wyczyść</button>
+      </div>
+    </div>
+
+    <div class="card" id="recs">
+      <h2>Najlepsze rekomendacje</h2>
+      <p class="muted" id="hint">Wybierz kategorię lub wrzuć zdjęcie.</p>
+      <div id="list" class="list"></div>
+
+      <details class="mt12">
+        <summary>Jak dobieramy?</summary>
+        <ul class="muted small mt6">
+          <li>Składniki (BHA, kwas azelainowy, ceramidy, retinoidy — edukacyjnie)</li>
+          <li>Typ formuły i pora (np. żel na noc, krem barierowy na dzień)</li>
+          <li>Oceny użytkowniczek (symulowane w tym demie)</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="card" id="game">
+    <h2>Gra — „Dobierz składniki”</h2>
+    <p class="muted">Cel: <b id="goalLabel">Trądzik</b>. Zaznacz 3 składniki. Im lepsze dopasowanie, tym więcej punktów.</p>
+    <div class="game-grid">
+      <div>
+        <div class="badge">Składniki</div>
+        <div id="pool" class="chips"></div>
+      </div>
+      <div>
+        <div class="badge">Twój wybór (max 3)</div>
+        <div id="picked" class="chips"></div>
+        <button class="btn primary mt12" id="scoreBtn">Sprawdź wynik</button>
+        <div id="scoreBox" class="mt12"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="card" id="progress">
+    <h2>Progres — kapsuła before/after</h2>
+    <p class="muted">Dodawaj wpisy (zdjęcie jest przechowywane tylko lokalnie jako URL — nic nie wysyłamy).</p>
+    <form id="progressForm" class="progress-form">
+      <input type="date" id="pDate" required />
+      <input type="text" id="pNote" placeholder="Notatka (np. tydzień 1 — BHA 2% w śr/pt)" />
+      <input type="file" id="pImg" accept="image/*" />
+      <button class="btn">Dodaj</button>
+    </form>
+    <div class="table">
+      <div class="tr head"><div>Data</div><div>Notatka</div><div>Zdjęcie</div><div></div></div>
+      <div id="pRows"></div>
+    </div>
+  </section>
+
+  <!-- PLANNER -->
+  <section class="card" id="planner">
+    <h2>Planer rutyny</h2>
+    <div class="planner">
+      <div class="planner-row head"><div>Dzień</div><div>Rano</div><div>Wieczór</div></div>
+      <div id="planRows"></div>
+    </div>
+    <div class="mt12"><button class="btn" id="resetPlan">Resetuj planer</button></div>
+  </section>
+
+  <!-- BLOG -->
+  <section class="card" id="blog">
+    <h2>Edukacja i wpisy</h2>
+    <div class="blog-grid" id="blogGrid"></div>
+  </section>
+
+  <!-- LEGAL -->
+  <section class="card" id="legal">
+    <h2>Informacje prawne</h2>
+    <details open>
+      <summary>Oświadczenie</summary>
+      <p class="muted small mt6">Aplikacja ma charakter edukacyjny. Nie jest poradą ani usługą medyczną. W sytuacjach wymagających diagnostyki skorzystaj z konsultacji lekarskiej.</p>
+    </details>
+    <details>
+      <summary>Polityka prywatności (skrót)</summary>
+      <ul class="muted small mt6">
+        <li>Zdjęcia przetwarzane są wyłącznie lokalnie, nie są wysyłane na serwer.</li>
+        <li>Dane planera i progresu są zapisywane w Twojej przeglądarce (localStorage).</li>
+        <li>Możesz wyczyścić dane w ustawieniach przeglądarki.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Warunki korzystania</summary>
+      <p class="muted small mt6">Korzystając z aplikacji, akceptujesz powyższe zasady. Treści nie stanowią porady medycznej.</p>
+    </details>
+  </section>
+</main>
+
+<!-- COOKIE / CONSENT -->
+<div class="consent hide" id="consent">
+  <div>Używamy localStorage wyłącznie do zapisu Twoich ustawień i progresu. Brak śledzenia.</div>
+  <div><button class="btn primary small" id="consentOk">OK</button></div>
+</div>
 
 <script>
-/* ——— dane demo (lokalne) ——— */
+/* ========== I18N (PL/EN minimal) ========== */
+const T = {
+  pl:{h1:"Wrzuć zdjęcie. Otrzymaj mądre rekomendacje.", heroSub:"Wszystko działa lokalnie — zdjęcia zostają w Twojej przeglądarce. Edukacyjnie, bez porad medycznych."},
+  en:{h1:"Upload a photo. Get smart recommendations.", heroSub:"Everything runs locally — photos never leave your browser. Educational only, not medical advice."}
+};
+const langBtn=document.getElementById('langToggle');
+langBtn.onclick=()=>{ const html=document.documentElement; html.dataset.lang=html.dataset.lang==='pl'?'en':'pl'; const L=T[html.dataset.lang]; document.querySelector('[data-t=\"h1\"]').textContent=L.h1; document.querySelector('[data-t=\"heroSub\"]').textContent=L.heroSub; };
+
+/* ========== ANALYZER + RECS ========== */
 const PRODUCTS = {
-  tradzik: [
+  tradzik:[
     {name:"Acne Control Gel 2%", brand:"BX Labs", rating:4.7, price:"od 39 zł", tags:["BHA","żel","noc"]},
-    {name:"Kwas azelainowy 10%", brand:"Dr. AZE", rating:4.6, price:"od 49 zł", tags:["azelainowy","przebarwienia"]},
+    {name:"Kwas azelainowy 10%", brand:"Dr. AZE", rating:4.6, price:"od 49 zł", tags:["azelainowy","przebarwienia"]}
   ],
-  wagry: [
-    {name:"Tonik BHA 2%", brand:"ClearWave", rating:4.6, price:"od 35 zł", tags:["pory","strefa-T"]},
+  wagry:[
+    {name:"Tonik BHA 2%", brand:"ClearWave", rating:4.6, price:"od 35 zł", tags:["pory","strefa-T"]}
   ],
-  sucha: [
-    {name:"Krem z ceramidami", brand:"BarrierLab", rating:4.8, price:"od 39 zł", tags:["bariera"]},
+  sucha:[
+    {name:"Krem z ceramidami", brand:"BarrierLab", rating:4.8, price:"od 39 zł", tags:["bariera"]}
   ]
 };
-const LABELS = { tradzik:"Trądzik", wagry:"Wągry / zaskórniki", sucha:"Sucha skóra" };
-
-/* ——— prosta „analiza” po nazwie pliku ——— */
-function guessByName(name){
-  const n = name.toLowerCase();
+const LABELS={tradzik:"Trądzik", wagry:"Wągry / zaskórniki", sucha:"Sucha skóra"};
+const fileInput=document.getElementById('file');
+const preview=document.getElementById('preview');
+const img=document.getElementById('img');
+const detected=document.getElementById('detected');
+const list=document.getElementById('list');
+const hint=document.getElementById('hint');
+function guessByName(n){
+  n=n.toLowerCase();
   if(/acne|tradzik|pimple|pryszcz/.test(n)) return "tradzik";
   if(/blackhead|wagry|comedone|pory/.test(n)) return "wagry";
   if(/dry|sucha|xerosis|flaky/.test(n)) return "sucha";
   return null;
 }
-
-/* ——— UI logika ——— */
-const fileInput = document.getElementById('file');
-const preview = document.getElementById('preview');
-const img = document.getElementById('img');
-const detected = document.getElementById('detected');
-const list = document.getElementById('list');
-const hint = document.getElementById('hint');
-
 function renderList(key){
-  list.innerHTML = "";
-  if(!key){ hint.style.display=""; return; }
-  hint.style.display="none";
+  list.innerHTML="";
+  if(!key){ hint.classList.remove('hide'); return; }
+  hint.classList.add('hide');
   (PRODUCTS[key]||[]).forEach(p=>{
-    const el = document.createElement('div');
-    el.className = 'product';
-    el.innerHTML = `
-      <div class="dot"></div>
-      <div>
-        <div><b>${p.name}</b></div>
-        <div class="muted">${p.brand} • ⭐ ${p.rating.toFixed(1)} • ${p.price}</div>
-        <div style="margin-top:4px">${p.tags.map(t=>`<span class="badge">${t}</span>`).join(' ')}</div>
-      </div>
-    `;
+    const el=document.createElement('div');
+    el.className='product';
+    el.innerHTML=`<div class="dot"></div>
+      <div><div><b>${p.name}</b></div>
+      <div class="muted">${p.brand} • ⭐ ${p.rating.toFixed(1)} • ${p.price}</div>
+      <div class="tags">${p.tags.map(t=>`<span class="badge">${t}</span>`).join(' ')}</div></div>`;
     list.appendChild(el);
   });
 }
-
-function setCondition(key){
-  detected.textContent = key ? LABELS[key] : "—";
-  renderList(key);
-}
-
+function setCondition(k){ detected.textContent=k?LABELS[k]:"—"; renderList(k); selectedGoal=k||'tradzik'; document.getElementById('goalLabel').textContent=LABELS[selectedGoal]; }
 fileInput.addEventListener('change', e=>{
-  const f = e.target.files && e.target.files[0];
-  if(!f){ preview.style.display="none"; setCondition(null); return; }
-  const url = URL.createObjectURL(f);
-  img.src = url;
-  preview.style.display = '';
-  const g = guessByName(f.name);
-  setCondition(g);
+  const f=e.target.files?.[0]; if(!f){ preview.classList.add('hide'); setCondition(null); return; }
+  const url=URL.createObjectURL(f); img.src=url; preview.classList.remove('hide'); setCondition(guessByName(f.name));
 });
+document.querySelectorAll('.btn[data-cond]').forEach(b=>b.onclick=()=>setCondition(b.dataset.cond));
+document.getElementById('clear').onclick=()=>{ fileInput.value=""; preview.classList.add('hide'); setCondition(null); };
 
-document.querySelectorAll('.btn[data-cond]').forEach(btn=>{
-  btn.addEventListener('click', ()=> setCondition(btn.dataset.cond));
-});
-document.getElementById('clear').addEventListener('click', ()=>{
-  fileInput.value = ""; preview.style.display="none"; setCondition(null);
-});
+/* ========== GAME ========== */
+const pool=document.getElementById('pool'), picked=document.getElementById('picked'), scoreBox=document.getElementById('scoreBox');
+const ING=["BHA 2%","Retinoid","Niacynamid","Ceramidy","Kwas azelainowy","Wit. C","Kwas hialuronowy","Cynk","Bakuchiol","Peptydy"];
+const MATCH={tradzik:["BHA 2%","Kwas azelainowy","Retinoid","Cynk","Niacynamid"], wagry:["BHA 2%","Niacynamid","Retinoid"], sucha:["Ceramidy","Kwas hialuronowy","Peptydy","Bakuchiol"]};
+let selectedGoal='tradzik'; const pickedSet=new Set();
+function renderChips() {
+  pool.innerHTML=""; picked.innerHTML="";
+  ING.forEach(x=>{
+    const c=document.createElement('button'); c.className='chip'; c.textContent=x;
+    c.onclick=()=>{ if(pickedSet.has(x)){ pickedSet.delete(x);} else { if(pickedSet.size<3) pickedSet.add(x); }
+      drawPicked();
+    };
+    pool.appendChild(c);
+  });
+}
+function drawPicked(){
+  picked.innerHTML="";
+  [...pickedSet].forEach(x=>{ const c=document.createElement('button'); c.className='chip active'; c.textContent=x; c.onclick=()=>{pickedSet.delete(x); drawPicked();}; picked.appendChild(c); });
+}
+document.getElementById('scoreBtn').onclick=()=>{
+  const target=new Set(MATCH[selectedGoal]||[]);
+  let s=0; pickedSet.forEach(x=>{ if(target.has(x)) s+=50; else s-=25; });
+  const msg=s>=100?"Świetnie! 🎉":"OK — spróbuj podmienić składniki.";
+  scoreBox.innerHTML=`<div class="score">Wynik: <b>${s}</b> • ${msg}</div>`;
+};
+renderChips();
+
+/* ========== PROGRESS (localStorage) ========== */
+const PKEY="skin-progress";
+function loadP(){ try{return JSON.parse(localStorage.getItem(PKEY)||"[]");}catch{return[]} }
+function saveP(v){ localStorage.setItem(PKEY, JSON.stringify(v)); }
+const form=document.getElementById('progressForm'), rows=document.getElementById('pRows');
+function renderP(){ rows.innerHTML=""; loadP().forEach((r,i)=>{ const el=document.createElement('div'); el.className='tr'; el.innerHTML=`<div>${r.d||""}</div><div>${r.n||""}</div><div>${r.u?`<img src="${r.u}" class="thumb">`:""}</div><div><button class="btn small" data-i="${i}">Usuń</button></div>`; rows.appendChild(el); el.querySelector('button').onclick=()=>{ const all=loadP(); all.splice(i,1); saveP(all); renderP(); }; });}
+form.onsubmit=(e)=>{ e.preventDefault(); const d=document.getElementById('pDate').value; const n=document.getElementById('pNote').value; const f=document.getElementById('pImg').files?.[0]; if(!d&&!n&&!f)return;
+  if(f){ const u=URL.createObjectURL(f); addP({d,n,u}); } else { addP({d,n}); } form.reset(); };
+function addP(obj){ const all=loadP(); all.unshift(obj); saveP(all); renderP(); } renderP();
+
+/* ========== PLANNER (localStorage) ========== */
+const DAYS=["Pon","Wt","Śr","Czw","Pt","Sob","Nd"];
+const RKEY="skin-plan";
+function loadR(){ try{return JSON.parse(localStorage.getItem(RKEY)||"{}");}catch{return{}} }
+function saveR(v){ localStorage.setItem(RKEY, JSON.stringify(v)); }
+const planRows=document.getElementById('planRows');
+function renderPlan(){
+  const data=loadR(); planRows.innerHTML="";
+  DAYS.forEach((d,i)=>{ const r=document.createElement('div'); r.className='planner-row';
+    const am=data[i]?.am||"", pm=data[i]?.pm||"";
+    r.innerHTML=`<div>${d}</div><div><input value="${am}" data-i="${i}" data-k="am" placeholder="np. SPF, tonik"/></div><div><input value="${pm}" data-i="${i}" data-k="pm" placeholder="np. retinoid, krem"/></div>`;
+    planRows.appendChild(r);
+  });
+  planRows.querySelectorAll('input').forEach(inp=> inp.oninput=()=>{ const i=+inp.dataset.i; const k=inp.dataset.k; const data=loadR(); data[i]=data[i]||{}; data[i][k]=inp.value; saveR(data); });
+}
+renderPlan(); document.getElementById('resetPlan').onclick=()=>{ localStorage.removeItem(RKEY); renderPlan(); };
+
+/* ========== BLOG (statyczne wpisy) ========== */
+const BLOG=[ {t:"BHA 2% — kiedy i jak?", s:"Zacznij od 2–3x w tygodniu, unikaj łączenia z retinoidem na start.", k:["BHA","peeling chemiczny"]},
+             {t:"Bariera hydrolipidowa", s:"Ceramidy + cholesterole + kwasy tłuszczowe — szukaj w INCI: ceramide NP/NS.", k:["ceramidy","bariera"]},
+             {t:"Azelainowy 10–15%", s:"Delikatny na przebarwienia i niedoskonałości. Działa wolniej, ale stabilnie.", k:["azelainowy","przebarwienia"]} ];
+const blogGrid=document.getElementById('blogGrid');
+BLOG.forEach(p=>{ const el=document.createElement('article'); el.className='card soft'; el.innerHTML=`<h3>${p.t}</h3><p class="muted">${p.s}</p><div class="tags">${p.k.map(x=>`<span class="badge">${x}</span>`).join(' ')}</div>`; blogGrid.appendChild(el);});
+
+/* ========== CONSENT ========== */
+const consent=document.getElementById('consent'); if(!localStorage.getItem('skin-consent')) consent.classList.remove('hide');
+document.getElementById('consentOk').onclick=()=>{ localStorage.setItem('skin-consent','1'); consent.classList.add('hide'); };
+
+/* CTA */
+document.getElementById('ctaStart').onclick=()=>document.getElementById('analyzer').scrollIntoView({behavior:'smooth'});
+
+/* Smooth hash scroll fix */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.onclick=(e)=>{e.preventDefault(); document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})});
 </script>
 </body>
 </html>
