@@ -1,31 +1,31 @@
-import React, { useEffect, useMemo, useState } from "react";
+﻿import React, { useEffect, useMemo, useState } from "react";
 
-/* ======== Dane demo (do podmiany na backend, gdy będziesz gotowa) ======== */
+/* ======== Dane demo (do podmiany na backend, gdy bÄ™dziesz gotowa) ======== */
 type Key = "tradzik" | "wagry" | "sucha" | "przebarwienia";
 type Product = {
   name: string; brand: string; rating: number; price: string;
-  time: "rano" | "wieczór"; type: "żel" | "krem" | "tonik" | "serum";
+  time: "rano" | "wieczĂłr"; type: "ĹĽel" | "krem" | "tonik" | "serum";
   tier: "budget" | "mid" | "pro"; tags: string[];
 };
 const LABELS: Record<Key,string> = {
-  tradzik: "Trądzik",
-  wagry: "Wągry / zaskórniki",
-  sucha: "Sucha skóra",
+  tradzik: "TrÄ…dzik",
+  wagry: "WÄ…gry / zaskĂłrniki",
+  sucha: "Sucha skĂłra",
   przebarwienia: "Przebarwienia"
 };
 const PRODUCTS: Record<Key, Product[]> = {
   tradzik: [
-    { name:"Acne Control Gel 2%", brand:"BX Labs", rating:4.7, price:"od 39 zł", time:"wieczór", type:"żel", tier:"budget", tags:["BHA","noc"] },
-    { name:"Kwas azelainowy 10%", brand:"Dr. AZE", rating:4.6, price:"od 49 zł", time:"rano", type:"serum", tier:"mid", tags:["azelainowy","przebarwienia"] }
+    { name:"Acne Control Gel 2%", brand:"BX Labs", rating:4.7, price:"od 39 zĹ‚", time:"wieczĂłr", type:"ĹĽel", tier:"budget", tags:["BHA","noc"] },
+    { name:"Kwas azelainowy 10%", brand:"Dr. AZE", rating:4.6, price:"od 49 zĹ‚", time:"rano", type:"serum", tier:"mid", tags:["azelainowy","przebarwienia"] }
   ],
   wagry: [
-    { name:"Tonik BHA 2%", brand:"ClearWave", rating:4.6, price:"od 35 zł", time:"wieczór", type:"tonik", tier:"budget", tags:["pory","strefa-T"] }
+    { name:"Tonik BHA 2%", brand:"ClearWave", rating:4.6, price:"od 35 zĹ‚", time:"wieczĂłr", type:"tonik", tier:"budget", tags:["pory","strefa-T"] }
   ],
   sucha: [
-    { name:"Krem z ceramidami", brand:"BarrierLab", rating:4.8, price:"od 39 zł", time:"rano", type:"krem", tier:"mid", tags:["bariera"] }
+    { name:"Krem z ceramidami", brand:"BarrierLab", rating:4.8, price:"od 39 zĹ‚", time:"rano", type:"krem", tier:"mid", tags:["bariera"] }
   ],
   przebarwienia: [
-    { name:"Serum z wit. C 15%", brand:"C-Glow", rating:4.5, price:"od 59 zł", time:"rano", type:"serum", tier:"mid", tags:["antyoksydant","rozświetlenie"] }
+    { name:"Serum z wit. C 15%", brand:"C-Glow", rating:4.5, price:"od 59 zĹ‚", time:"rano", type:"serum", tier:"mid", tags:["antyoksydant","rozĹ›wietlenie"] }
   ]
 };
 const ING = ["BHA 2%","Retinoid","Niacynamid","Ceramidy","Kwas azelainowy","Wit. C","Kwas hialuronowy","Cynk","Bakuchiol","Peptydy"];
@@ -64,8 +64,8 @@ export default function App() {
   }
 
   // Filtry
-  const [fTime, setFTime] = useState<"" | "rano" | "wieczór">("");
-  const [fType, setFType] = useState<"" | "żel" | "krem" | "tonik" | "serum">("");
+  const [fTime, setFTime] = useState<"" | "rano" | "wieczĂłr">("");
+  const [fType, setFType] = useState<"" | "ĹĽel" | "krem" | "tonik" | "serum">("");
   const [fTier, setFTier] = useState<"" | "budget" | "mid" | "pro">("");
   const products = useMemo(() => {
     if (!cond) return [];
@@ -85,9 +85,9 @@ export default function App() {
 
   // Quiz
   const QUIZ = [
-    { q: "Najlepsze na zaskórniki?", a: ["BHA 2%", "Ceramidy", "Kwas hialuronowy"], good: 0, why: "BHA rozpuszcza sebum w porach." },
-    { q: "Co wspiera barierę?", a: ["Azelainowy", "Ceramidy", "Wit. C"], good: 1, why: "Ceramidy odbudowują barierę." },
-    { q: "Na przebarwienia?", a: ["Wit. C", "Cynk", "Kwas hialuronowy"], good: 0, why: "Wit. C i azelainowy rozjaśniają." }
+    { q: "Najlepsze na zaskĂłrniki?", a: ["BHA 2%", "Ceramidy", "Kwas hialuronowy"], good: 0, why: "BHA rozpuszcza sebum w porach." },
+    { q: "Co wspiera barierÄ™?", a: ["Azelainowy", "Ceramidy", "Wit. C"], good: 1, why: "Ceramidy odbudowujÄ… barierÄ™." },
+    { q: "Na przebarwienia?", a: ["Wit. C", "Cynk", "Kwas hialuronowy"], good: 0, why: "Wit. C i azelainowy rozjaĹ›niajÄ…." }
   ];
   const [qi, setQi] = useState(0), [good, setGood] = useState(0), [total, setTotal] = useState(0), [locked, setLocked] = useState(false);
 
@@ -103,9 +103,9 @@ export default function App() {
 
   // Blog
   const BLOG = [
-    { t: "BHA 2% — kiedy i jak?", s: "Zacznij 2–3×/tydz., unikaj łączenia z retinoidem na start.", k: ["BHA","peeling"] },
-    { t: "Bariera hydrolipidowa", s: "Ceramidy + cholesterole + kw. tłuszczowe — INCI: ceramide NP/NS.", k: ["ceramidy","bariera"] },
-    { t: "Azelainowy 10–15%", s: "Delikatny na przebarwienia i niedoskonałości; stabilny, ale wolniejszy.", k: ["azelainowy","przebarwienia"] },
+    { t: "BHA 2% â€” kiedy i jak?", s: "Zacznij 2â€“3Ă—/tydz., unikaj Ĺ‚Ä…czenia z retinoidem na start.", k: ["BHA","peeling"] },
+    { t: "Bariera hydrolipidowa", s: "Ceramidy + cholesterole + kw. tĹ‚uszczowe â€” INCI: ceramide NP/NS.", k: ["ceramidy","bariera"] },
+    { t: "Azelainowy 10â€“15%", s: "Delikatny na przebarwienia i niedoskonaĹ‚oĹ›ci; stabilny, ale wolniejszy.", k: ["azelainowy","przebarwienia"] },
   ];
 
   return (
@@ -121,61 +121,61 @@ export default function App() {
           <a href="#prog">Progres</a>
           <a href="#plan">Planer</a>
           <a href="#blog">Blog</a>
-          <a href="#legal">Prywatność</a>
+          <a href="#legal">PrywatnoĹ›Ä‡</a>
         </nav>
       </header>
 
       <main className="container">
         {/* ---- HERO ---- */}
         <section className="hero">
-          <h1>Wrzuć zdjęcie. Otrzymaj rekomendacje.</h1>
-          <p className="muted">Wszystko lokalnie w przeglądarce. Edukacyjnie — bez porad medycznych.</p>
+          <h1>WrzuÄ‡ zdjÄ™cie. Otrzymaj rekomendacje.</h1>
+          <p className="muted">Wszystko lokalnie w przeglÄ…darce. Edukacyjnie â€” bez porad medycznych.</p>
           <div className="hero-cards">
-            <div className="card"><h3>Analiza</h3><p className="muted">Rozpoznanie kategorii + lista produktów.</p></div>
-            <div className="card"><h3>Gra i quiz</h3><p className="muted">Ucz się dobierać składniki.</p></div>
-            <div className="card"><h3>Plan i progres</h3><p className="muted">Planer + kapsuła before/after.</p></div>
+            <div className="card"><h3>Analiza</h3><p className="muted">Rozpoznanie kategorii + lista produktĂłw.</p></div>
+            <div className="card"><h3>Gra i quiz</h3><p className="muted">Ucz siÄ™ dobieraÄ‡ skĹ‚adniki.</p></div>
+            <div className="card"><h3>Plan i progres</h3><p className="muted">Planer + kapsuĹ‚a before/after.</p></div>
           </div>
         </section>
 
         {/* ---- ANALIZA + RECS ---- */}
         <div className="grid-2" id="an">
-          <Section id="analyzer" title="Analiza zdjęcia (prywatnie)">
+          <Section id="analyzer" title="Analiza zdjÄ™cia (prywatnie)">
             <label className="uploader">
               <input type="file" accept="image/*" onChange={(e) => {
                 const f = e.target.files?.[0] || null;
                 setFile(f); setCond(f ? guessByName(f.name) : undefined);
               }}/>
-              <div>Przeciągnij i upuść / kliknij, aby wybrać</div>
+              <div>PrzeciÄ…gnij i upuĹ›Ä‡ / kliknij, aby wybraÄ‡</div>
             </label>
             {imgUrl && <div className="preview"><img src={imgUrl} alt="preview" /></div>}
 
             <div className="card soft mt10">
               <div className="badge">Kategoria</div>
-              <div className="mt6">{cond ? LABELS[cond] : "—"}</div>
-              <small className="muted">Edukacyjnie — to nie jest porada medyczna.</small>
+              <div className="mt6">{cond ? LABELS[cond] : "â€”"}</div>
+              <small className="muted">Edukacyjnie â€” to nie jest porada medyczna.</small>
             </div>
 
             <div className="btn-row mt10">
-              <button className="btn" onClick={() => setCond("tradzik")}>Trądzik</button>
-              <button className="btn" onClick={() => setCond("wagry")}>Wągry</button>
-              <button className="btn" onClick={() => setCond("sucha")}>Sucha skóra</button>
+              <button className="btn" onClick={() => setCond("tradzik")}>TrÄ…dzik</button>
+              <button className="btn" onClick={() => setCond("wagry")}>WÄ…gry</button>
+              <button className="btn" onClick={() => setCond("sucha")}>Sucha skĂłra</button>
               <button className="btn" onClick={() => setCond("przebarwienia")}>Przebarwienia</button>
-              <button className="btn" onClick={() => { setCond(undefined); setFile(null); }}>Wyczyść</button>
+              <button className="btn" onClick={() => { setCond(undefined); setFile(null); }}>WyczyĹ›Ä‡</button>
             </div>
           </Section>
 
           <Section id="recs" title="Najlepsze rekomendacje">
-            {!cond && <p className="muted">Wybierz kategorię lub wrzuć zdjęcie.</p>}
+            {!cond && <p className="muted">Wybierz kategoriÄ™ lub wrzuÄ‡ zdjÄ™cie.</p>}
             {cond && <>
               <div className="filters">
                 <select value={fTime} onChange={e=>setFTime(e.target.value as any)}>
-                  <option value="">Pora: dowolna</option><option value="rano">rano</option><option value="wieczór">wieczór</option>
+                  <option value="">Pora: dowolna</option><option value="rano">rano</option><option value="wieczĂłr">wieczĂłr</option>
                 </select>
                 <select value={fType} onChange={e=>setFType(e.target.value as any)}>
-                  <option value="">Typ: dowolny</option><option value="żel">żel</option><option value="krem">krem</option><option value="tonik">tonik</option><option value="serum">serum</option>
+                  <option value="">Typ: dowolny</option><option value="ĹĽel">ĹĽel</option><option value="krem">krem</option><option value="tonik">tonik</option><option value="serum">serum</option>
                 </select>
                 <select value={fTier} onChange={e=>setFTier(e.target.value as any)}>
-                  <option value="">Cena: dowolna</option><option value="budget">budżetowe</option><option value="mid">średnia półka</option><option value="pro">wyższa półka</option>
+                  <option value="">Cena: dowolna</option><option value="budget">budĹĽetowe</option><option value="mid">Ĺ›rednia pĂłĹ‚ka</option><option value="pro">wyĹĽsza pĂłĹ‚ka</option>
                 </select>
               </div>
 
@@ -185,7 +185,7 @@ export default function App() {
                     <div className="dot"></div>
                     <div>
                       <div><b>{p.name}</b></div>
-                      <div className="muted">{p.brand} • ⭐ {p.rating.toFixed(1)} • {p.price} • {p.time} • {p.type}</div>
+                      <div className="muted">{p.brand} â€˘ â­ {p.rating.toFixed(1)} â€˘ {p.price} â€˘ {p.time} â€˘ {p.type}</div>
                       <div className="tags">{p.tags.map(t=><span key={t} className="badge">{t}</span>)}</div>
                     </div>
                   </div>
@@ -196,11 +196,11 @@ export default function App() {
         </div>
 
         {/* ---- GRA ---- */}
-        <Section id="game" title='Gra — „Dobierz składniki”'>
-          <p className="muted">Cel: <b>{LABELS[(goal as Key)]}</b>. Wybierz maks. 3 — dobre trafienia = więcej punktów.</p>
+        <Section id="game" title='Gra â€” â€žDobierz skĹ‚adnikiâ€ť'>
+          <p className="muted">Cel: <b>{LABELS[(goal as Key)]}</b>. Wybierz maks. 3 â€” dobre trafienia = wiÄ™cej punktĂłw.</p>
           <div className="game-grid">
             <div>
-              <div className="badge">Składniki</div>
+              <div className="badge">SkĹ‚adniki</div>
               <div className="chips">
                 {ING.map(x=>{
                   const on=picked.includes(x);
@@ -209,15 +209,15 @@ export default function App() {
               </div>
             </div>
             <div>
-              <div className="badge">Twój wybór (max 3)</div>
+              <div className="badge">TwĂłj wybĂłr (max 3)</div>
               <div className="chips">{picked.map(x=><button key={x} className="chip active" onClick={()=>togglePick(x)}>{x}</button>)}</div>
-              <div className="score mt10">Wynik: <b>{score}</b> {score>=100?"— Świetnie! ✨":"— Spróbuj lepiej dopasować."}</div>
+              <div className="score mt10">Wynik: <b>{score}</b> {score>=100?"â€” Ĺšwietnie! âś¨":"â€” SprĂłbuj lepiej dopasowaÄ‡."}</div>
             </div>
           </div>
         </Section>
 
         {/* ---- QUIZ ---- */}
-        <Section id="quiz" title="Quiz — pielęgnacja i składniki">
+        <Section id="quiz" title="Quiz â€” pielÄ™gnacja i skĹ‚adniki">
           <div className="quiz">
             <div className="q">{QUIZ[qi%QUIZ.length].q}</div>
             <div className="quiz-answers">
@@ -232,14 +232,14 @@ export default function App() {
             </div>
             {locked && <div className="muted small mt6">{QUIZ[qi%QUIZ.length].why}</div>}
             <div className="btn-row mt10">
-              <button className="btn primary" onClick={()=>{setQi(q=>q+1);setLocked(false)}}>Następne</button>
+              <button className="btn primary" onClick={()=>{setQi(q=>q+1);setLocked(false)}}>NastÄ™pne</button>
               <span className="badge">Wynik: {good}/{total}</span>
             </div>
           </div>
         </Section>
 
         {/* ---- PROGRES ---- */}
-        <Section id="prog" title="Progres — kapsuła before/after">
+        <Section id="prog" title="Progres â€” kapsuĹ‚a before/after">
           <form className="progress-form" onSubmit={e=>{
             e.preventDefault();
             const form=e.currentTarget as HTMLFormElement;
@@ -251,19 +251,19 @@ export default function App() {
             form.reset();
           }}>
             <input id="pDate" type="date" />
-            <input id="pNote" placeholder="Notatka (np. tydzień 1 — BHA śr/pt)" />
+            <input id="pNote" placeholder="Notatka (np. tydzieĹ„ 1 â€” BHA Ĺ›r/pt)" />
             <input id="pImg" type="file" accept="image/*" />
             <button className="btn">Dodaj</button>
           </form>
           <div className="table">
-            <div className="tr head"><div>Data</div><div>Notatka</div><div>Zdjęcie</div><div></div></div>
+            <div className="tr head"><div>Data</div><div>Notatka</div><div>ZdjÄ™cie</div><div></div></div>
             <div>
               {rows.map((r,i)=>(
                 <div className="tr" key={i}>
                   <div>{r.d||""}</div>
                   <div>{r.n||""}</div>
                   <div>{r.u?<img className="thumb" src={r.u}/>: ""}</div>
-                  <div><button className="btn small" onClick={()=>setRows(x=>x.filter((_,k)=>k!==i))}>Usuń</button></div>
+                  <div><button className="btn small" onClick={()=>setRows(x=>x.filter((_,k)=>k!==i))}>UsuĹ„</button></div>
                 </div>
               ))}
             </div>
@@ -272,7 +272,7 @@ export default function App() {
 
         {/* ---- PLANER ---- */}
         <Section id="plan" title="Planer rutyny">
-          {["Pon","Wt","Śr","Czw","Pt","Sob","Nd"].map((d,idx)=>(
+          {["Pon","Wt","Ĺšr","Czw","Pt","Sob","Nd"].map((d,idx)=>(
             <div className="planner-row" key={idx}>
               <div className="day">{d}</div>
               <div><input value={plan[idx]?.am||""} placeholder="np. SPF, tonik"
@@ -288,9 +288,9 @@ export default function App() {
         <Section id="blog" title="Edukacja i wpisy">
           <div className="blog-grid">
             {[
-              { t:"BHA 2% — kiedy i jak?", s:"Zacznij 2–3×/tydz., unikaj łączenia z retinoidem na start.", k:["BHA","peeling"]},
+              { t:"BHA 2% â€” kiedy i jak?", s:"Zacznij 2â€“3Ă—/tydz., unikaj Ĺ‚Ä…czenia z retinoidem na start.", k:["BHA","peeling"]},
               { t:"Bariera hydrolipidowa", s:"Ceramidy + cholesterole + KT = bariera.", k:["ceramidy","bariera"]},
-              { t:"Azelainowy 10–15%", s:"Delikatny na przebarwienia i niedoskonałości.", k:["azelainowy","przebarwienia"]}
+              { t:"Azelainowy 10â€“15%", s:"Delikatny na przebarwienia i niedoskonaĹ‚oĹ›ci.", k:["azelainowy","przebarwienia"]}
             ].map((p,i)=>(
               <article key={i} className="card soft">
                 <h3>{p.t}</h3>
@@ -303,13 +303,13 @@ export default function App() {
 
         {/* ---- LEGAL ---- */}
         <Section id="legal" title="Informacje prawne">
-          <details open><summary>Oświadczenie</summary>
-            <p className="muted small mt6">Aplikacja ma charakter edukacyjny. Nie jest poradą ani usługą medyczną.</p>
+          <details open><summary>OĹ›wiadczenie</summary>
+            <p className="muted small mt6">Aplikacja ma charakter edukacyjny. Nie jest poradÄ… ani usĹ‚ugÄ… medycznÄ….</p>
           </details>
-          <details><summary>Prywatność</summary>
+          <details><summary>PrywatnoĹ›Ä‡</summary>
             <ul className="muted small mt6">
-              <li>Zdjęcia są przetwarzane wyłącznie lokalnie — nie wysyłamy plików.</li>
-              <li>Planer i progres zapisywane w localStorage przeglądarki.</li>
+              <li>ZdjÄ™cia sÄ… przetwarzane wyĹ‚Ä…cznie lokalnie â€” nie wysyĹ‚amy plikĂłw.</li>
+              <li>Planer i progres zapisywane w localStorage przeglÄ…darki.</li>
             </ul>
           </details>
         </Section>
@@ -317,3 +317,4 @@ export default function App() {
     </div>
   );
 }
+
