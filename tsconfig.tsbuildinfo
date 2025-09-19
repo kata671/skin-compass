@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/i18n.ts","./src/main.tsx","./src/components/imageanalyzer.tsx","./src/components/productlist.tsx","./src/data/products.ts","./src/utils/classifier.ts"],"version":"5.9.2"}
